@@ -20,10 +20,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Change working directory to the Flutter project folder
-      - name: Set working directory
-        run: cd sunny16
-
       # Set up Flutter
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
