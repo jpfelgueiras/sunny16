@@ -1,5 +1,6 @@
 # sunny16
 
+adding a github action
 A new Flutter project.
 
 ## Getting Started
