@@ -13,23 +13,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final _minController = TextEditingController();
   final _maxController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    _loadSettings(); // Load saved settings when the screen is initialized
+  }
+
+  Future<void> _loadSettings() async {
+    final settings = await SettingsRepository().loadSettings();
+    setState(() {
+      _isoValues.addAll(settings.isoValues);
+      _minController.text = settings.minShutterSpeed.toString();
+      _maxController.text = settings.maxShutterSpeed.toString();
+    });
+  }
+
   Future<void> _saveSettings() async {
     if (_formKey.currentState!.validate()) {
-      await SettingsRepository().saveSettings(
-        CameraSettings(
-          isoValues: _isoValues,
-          minShutterSpeed: double.parse(_minController.text),
-          maxShutterSpeed: double.parse(_maxController.text),
-        )
+      final settings = CameraSettings(
+        isoValues: _isoValues,
+        minShutterSpeed: double.parse(_minController.text),
+        maxShutterSpeed: double.parse(_maxController.text),
       );
-      Navigator.pop(context);
+
+      await SettingsRepository().saveSettings(settings);
+      Navigator.pop(context, settings); // Return updated settings
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Camera Settings')),
+      appBar: AppBar(
+        title: Text('Camera Settings'),
+      ),
       body: Form(
         key: _formKey,
         child: ListView(

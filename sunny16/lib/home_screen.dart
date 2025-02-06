@@ -12,9 +12,23 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  CameraSettings? _currentSettings;
   String? _selectedCondition;
   double? _selectedAperture;
   List<Map<String, dynamic>> _recommendations = [];
+
+    @override
+  void initState() {
+    super.initState();
+    _loadSettings();
+  }
+
+    Future<void> _loadSettings() async {
+    final settings = await SettingsRepository().loadSettings();
+    setState(() {
+      _currentSettings = settings;
+    });
+  }
 
   Future<void> _calculate() async {
     final settings = await SettingsRepository().loadSettings();
@@ -35,17 +49,17 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-    void _openSettings() async {
-    // Navigate to SettingsScreen and wait for a result (optional)
+  void _openSettings() async {
+    // Navigate to SettingsScreen and wait for a result
     final updatedSettings = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SettingsScreen()),
     );
 
-    // If you want to refresh the home screen after returning from settings
+    // If settings were updated, refresh the home screen
     if (updatedSettings != null) {
       setState(() {
-        // Refresh any data if needed
+        _currentSettings = updatedSettings;
       });
     }
   }
@@ -64,6 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
+            if (_currentSettings != null)
+              Text('Current ISO Values: ${_currentSettings!.isoValues.join(', ')}'),
             // Condition Selector
             DropdownButton<String>(
               hint: Text('Select Weather Condition'),
