@@ -37,27 +37,14 @@ jobs:
       # Build the app
       - name: Build APK
         run: flutter build apk --release
-        if: runner.os == 'ubuntu'
-
-      # Build the app for iOS (optional, requires macOS runner)
-      #- name: Build iOS
-      #  run: flutter build ios --release
-      #  if: runner.os == 'macOS'
+      
 
       # Upload build artifacts (optional)
       - name: Upload APK
         uses: actions/upload-artifact@v4
-        if: runner.os == 'ubuntu'
         with:
           name: app-release.apk
           path: build/app/outputs/flutter-apk/app-release.apk
-      # Upload build artifacts (optional)
-      #- name: Upload IPA
-      #  uses: actions/upload-artifact@v4
-      #  if: runner.os == 'macOS'
-      #  with:
-      #    name: app-release.ipa
-      #    path: sunny16/build/ios/Release/app-release.ipa
           
       
       # Cache Flutter dependencies
