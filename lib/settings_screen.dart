@@ -1,10 +1,9 @@
 // settings_screen.dart
 import 'package:flutter/material.dart';
 import 'package:sunny16/settings_model.dart';
+import 'package:sunny16/settings_repository.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
-
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
@@ -14,11 +13,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final List<int> _isoValues = [];
   final _minController = TextEditingController();
   final _maxController = TextEditingController();
+  StopIncrement _stopIncrement = StopIncrement.third; // Default to third stops
 
   @override
   void initState() {
     super.initState();
-    _loadSettings(); // Load saved settings when the screen is initialized
+    _loadSettings(); // Load saved settings
   }
 
   Future<void> _loadSettings() async {
@@ -27,6 +27,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _isoValues.addAll(settings.isoValues);
       _minController.text = settings.minShutterSpeed.toString();
       _maxController.text = settings.maxShutterSpeed.toString();
+      _stopIncrement = settings.stopIncrement; // Load stop increment
     });
   }
 
@@ -36,6 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         isoValues: _isoValues,
         minShutterSpeed: double.parse(_minController.text),
         maxShutterSpeed: double.parse(_maxController.text),
+        stopIncrement: _stopIncrement, // Save stop increment
       );
 
       await SettingsRepository().saveSettings(settings);
@@ -43,12 +45,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
+  Widget _buildStopIncrementSelector() {
+    return DropdownButton<StopIncrement>(
+      value: _stopIncrement,
+      onChanged: (value) {
+        setState(() => _stopIncrement = value!);
+      },
+      items: StopIncrement.values.map((increment) {
+        return DropdownMenuItem(
+          value: increment,
+          child: Text(increment.toString().split('.').last),
+        );
+      }).toList(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Camera Settings'),
-      ),
+      appBar: AppBar(title: Text('Camera Settings')),
       body: Form(
         key: _formKey,
         child: ListView(
@@ -83,6 +98,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               validator: (v) => v!.isEmpty ? 'Required' : null,
               decoration: InputDecoration(labelText: 'Max Shutter Speed (s)'),
             ),
+            
+            // Stop Increment Selector
+            _buildStopIncrementSelector(),
             
             ElevatedButton(
               onPressed: _saveSettings,
