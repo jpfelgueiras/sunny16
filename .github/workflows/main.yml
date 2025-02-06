@@ -10,12 +10,19 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest # Use the latest Ubuntu runner
+    runs-on: 
+      - ubuntu-latest # Use the latest Ubuntu runner
+      - macos-latest
+    
 
     steps:
       # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
+
+      # Change working directory to the Flutter project folder
+      - name: Set working directory
+        run: cd sunny16
 
       # Set up Flutter
       - name: Set up Flutter
@@ -34,15 +41,34 @@ jobs:
       # Build the app
       - name: Build APK
         run: flutter build apk --release
+        if: runner.os == 'ubuntu'
 
       # Build the app for iOS (optional, requires macOS runner)
-      # - name: Build iOS
-      #   run: flutter build ios --release
-      #   if: runner.os == 'macOS'
+      - name: Build iOS
+        run: flutter build ios --release
+        if: runner.os == 'macOS'
 
       # Upload build artifacts (optional)
       - name: Upload APK
         uses: actions/upload-artifact@v4
+        if: runner.os == 'ubuntu'
         with:
           name: app-release.apk
           path: build/app/outputs/flutter-apk/app-release.apk
+      # Upload build artifacts (optional)
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        if: runner.os == 'macOS'
+        with:
+          name: app-release.ipa
+          path: sunny16/build/ios/Release/app-release.ipa
+          
+      
+      # Cache Flutter dependencies
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v3
+        with:
+          path: sunny16/.flutter # Cache Flutter SDK
+          key: flutter-dependencies-${{ runner.os }}-${{ hashFiles('sunny16/pubspec.lock') }}
+          restore-keys: |
+            flutter-dependencies-${{ runner.os }}-
