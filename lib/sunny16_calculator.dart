@@ -39,10 +39,12 @@ static List<Map<String, dynamic>> calculateRecommendations({
 
     // Round to the nearest standard shutter speed
     shutterSpeed = _roundToNearestShutterSpeed(shutterSpeed);
+    double slowestShutter = 1/settings.minShutterSpeed;
+    double fastestShutter = 1/settings.maxShutterSpeed;
 
     // Check against camera limits
-    if (shutterSpeed >= settings.minShutterSpeed && 
-        shutterSpeed <= settings.maxShutterSpeed) {
+    if (shutterSpeed <= slowestShutter && 
+        shutterSpeed >= fastestShutter) {
       recommendations.add({
         'iso': iso,
         'shutter_speed': _formatShutterSpeed(shutterSpeed),
@@ -59,6 +61,8 @@ static List<Map<String, dynamic>> calculateRecommendations({
   }
 
   static double _roundToNearestShutterSpeed(double seconds) {
+
+    seconds = 1/seconds;
     // Find the closest standard shutter speed
     double closestSpeed = _standardShutterSpeeds[0];
     double minDifference = (seconds - closestSpeed).abs();
