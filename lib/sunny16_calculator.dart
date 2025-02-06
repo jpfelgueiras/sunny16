@@ -4,6 +4,16 @@ import 'dart:math';
 import 'package:sunny16/settings_model.dart';
 
 class Sunny16Calculator {
+
+  static const List<double> _standardShutterSpeeds = [
+    1 / 8000, 1 / 6400, 1 / 5000, 1 / 4000, 1 / 3200, 1 / 2500, 1 / 2000,
+    1 / 1600, 1 / 1250, 1 / 1000, 1 / 800, 1 / 640, 1 / 500, 1 / 400, 1 / 320,
+    1 / 250, 1 / 200, 1 / 160, 1 / 125, 1 / 100, 1 / 80, 1 / 60, 1 / 50, 1 / 40,
+    1 / 30, 1 / 25, 1 / 20, 1 / 15, 1 / 13, 1 / 10, 1 / 8, 1 / 6, 1 / 5, 1 / 4,
+    1 / 3, 1 / 2.5, 1 / 2, 1 / 1.6, 1 / 1.3, 1, 1.3, 1.6, 2, 2.5, 3, 4, 5, 6,
+    8, 10, 13, 15, 20, 25, 30
+  ];
+
   static const _evValues = {
     'sunny': 15,
     'light_clouds': 14,
@@ -12,38 +22,57 @@ class Sunny16Calculator {
     'sunset': 10,
   };
 
-  static List<Map<String, dynamic>> calculateRecommendations({
-    required String condition,
-    required double aperture,
-    required CameraSettings settings,
-  }) {
+static List<Map<String, dynamic>> calculateRecommendations({
+  required String condition,
+  required double aperture,
+  required CameraSettings settings,
+}) {
+  final ev = _evValues[condition] ?? 15;
+  final recommendations = <Map<String, dynamic>>[];
 
-    final ev = _evValues[condition] ?? 15;
-    final recommendations = <Map<String, dynamic>>[];
+  for (final iso in settings.isoValues) {
+    // Calculate base shutter speed
+    double shutterSpeed = pow(aperture, 2) / (iso / 100 * pow(2, ev));
+    
+    // Convert to reciprocal (1/x format)
+    shutterSpeed = 1 / shutterSpeed;
 
-    for (final iso in settings.isoValues) {
+    // Round to the nearest standard shutter speed
+    shutterSpeed = _roundToNearestShutterSpeed(shutterSpeed);
 
-      // Calculate base shutter speed
-      double shutterSpeed = pow(aperture, 2) / (iso / 100 * pow(2, ev));
-      
-      // Convert to reciprocal (1/x format)
-      shutterSpeed = 1 / shutterSpeed;
+    // Check against camera limits
+    if (shutterSpeed >= settings.minShutterSpeed && 
+        shutterSpeed <= settings.maxShutterSpeed) {
+      recommendations.add({
+        'iso': iso,
+        'shutter_speed': _formatShutterSpeed(shutterSpeed),
+      });
+    }
+  }
 
-      // Check against camera limits
-      if (shutterSpeed >= settings.minShutterSpeed && 
-          shutterSpeed <= settings.maxShutterSpeed) {
-        recommendations.add({
-          'iso': iso,
-          'shutter_speed': _formatShutterSpeed(shutterSpeed),
-        });
+  return recommendations;
+}
+
+  static String _formatShutterSpeed(double seconds) {
+    if (seconds >= 1) return '${seconds.toStringAsFixed(1)}s';
+    return '1/${(1 / seconds).toStringAsFixed(0)}s';
+  }
+
+  static double _roundToNearestShutterSpeed(double seconds) {
+    // Find the closest standard shutter speed
+    double closestSpeed = _standardShutterSpeeds[0];
+    double minDifference = (seconds - closestSpeed).abs();
+
+    for (final speed in _standardShutterSpeeds) {
+      final difference = (seconds - speed).abs();
+      if (difference < minDifference) {
+        minDifference = difference;
+        closestSpeed = speed;
       }
     }
 
-    return recommendations;
+    return closestSpeed;
   }
 
-  static String _formatShutterSpeed(double seconds) {
-    if (seconds >= 1) return '${seconds.toStringAsFixed(0)}s';
-    return '1/${(1/seconds).toStringAsFixed(0)}s';
-  }
+
 }
