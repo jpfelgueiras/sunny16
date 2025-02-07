@@ -78,7 +78,10 @@ final Map<String, IconData> _weatherIcons = {
       icon: Icon(icon, size: 40),
       color: _selectedCondition == condition ? Colors.blue : Colors.grey,
       onPressed: () {
-        setState(() => _selectedCondition = condition);
+        setState(() {
+          _selectedCondition = condition;
+          _calculate();
+        });
       },
     );
   }
@@ -102,14 +105,16 @@ Widget _buildApertureSlider() {
           label: 'f/${_apertureValues[_sliderValue].toStringAsFixed(1)}',
           onChanged: (value) {
             setState(() {
-              _sliderValue = value.round();
+             _sliderValue = value.round();
               _selectedAperture = _apertureValues[_sliderValue];
+              _calculate();
             });
           },
         ),
       ],
     );
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -135,10 +140,6 @@ Widget _buildApertureSlider() {
 
             // Aperture Selector
              _buildApertureSlider(),
-            ElevatedButton(
-              onPressed: _calculate,
-              child: Text('Calculate'),
-            ),
             // Results
             Expanded(
               child: ListView.builder(
