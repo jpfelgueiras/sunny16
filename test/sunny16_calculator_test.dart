@@ -5,13 +5,13 @@ import 'package:sunny16/sunny16_calculator.dart';
 
 void main() {
   group('Sunny16Calculator Tests', () {
-    /*
+    
     test('_getShutterSpeeds returns correct list based on stop increment', () {
-      expect(Sunny16Calculator._getShutterSpeeds(StopIncrement.full), Sunny16Calculator._fullStopShutterSpeeds);
-      expect(Sunny16Calculator._getShutterSpeeds(StopIncrement.half), Sunny16Calculator._halfStopShutterSpeeds);
-      expect(Sunny16Calculator._getShutterSpeeds(StopIncrement.third), Sunny16Calculator._thirdStopShutterSpeeds);
+      expect(Sunny16Calculator.getShutterSpeeds(StopIncrement.full), Sunny16Calculator.fullStopShutterSpeeds);
+      expect(Sunny16Calculator.getShutterSpeeds(StopIncrement.half), Sunny16Calculator.halfStopShutterSpeeds);
+      expect(Sunny16Calculator.getShutterSpeeds(StopIncrement.third), Sunny16Calculator.thirdStopShutterSpeeds);
     });
-*/
+
     test('_roundToNearestShutterSpeed rounds to nearest standard shutter speed', () {
       expect(Sunny16Calculator.roundToNearestShutterSpeed(1 / 1000, StopIncrement.full), 1 / 1000);
       expect(Sunny16Calculator.roundToNearestShutterSpeed(1 / 750, StopIncrement.half), 1 / 750);

@@ -12,6 +12,12 @@ class Sunny16Calculator {
     'sunset': 10,
   };
 
+  static const fullStopShutterSpeeds =_fullStopShutterSpeeds;
+
+  static const halfStopShutterSpeeds =_halfStopShutterSpeeds;
+
+  static const thirdStopShutterSpeeds = _thirdStopShutterSpeeds;
+  
   static const _fullStopShutterSpeeds = [
     1 / 8000, 1 / 4000, 1 / 2000, 1 / 1000, 1 / 500, 1 / 250, 1 / 125, 1 / 60,
     1 / 30, 1 / 15, 1 / 8, 1 / 4, 1 / 2, 1, 2, 4, 8, 15, 30
@@ -32,6 +38,9 @@ class Sunny16Calculator {
     8, 10, 13, 15, 20, 25, 30
   ];
 
+static List<num> getShutterSpeeds(StopIncrement increment) {
+  return _getShutterSpeeds(increment);
+}
   static List<num> _getShutterSpeeds(StopIncrement increment) {
     switch (increment) {
       case StopIncrement.full:
