@@ -8,6 +8,11 @@ class SettingsRepository {
   static const _keyMaxShutter = 'max_shutter';
   static const _keyStopIncrement = 'stop_increment'; // New key
 
+  String get keyISO => _keyISO;
+  String get keyMinShutter => _keyMinShutter;
+  String get keyMaxShutter => _keyMaxShutter;
+  String get keyStopIncrement => _keyStopIncrement;
+
   Future<void> saveSettings(CameraSettings settings) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList(_keyISO, settings.isoValues.map((e) => e.toString()).toList());
@@ -25,6 +30,9 @@ class SettingsRepository {
       stopIncrement: _parseStopIncrement(prefs.getString(_keyStopIncrement)), // Load stop increment
     );
   }
+  StopIncrement parseStopIncrement(String? value) {
+    return _parseStopIncrement(value);
+  }
 
   StopIncrement _parseStopIncrement(String? value) {
     switch (value) {
@@ -32,8 +40,9 @@ class SettingsRepository {
         return StopIncrement.full;
       case 'StopIncrement.half':
         return StopIncrement.half;
+      case 'StopIncrement.third':
       default:
-        return StopIncrement.third; // Default to third stops
+        return StopIncrement.third;
     }
   }
 }
