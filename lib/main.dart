@@ -13,8 +13,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: FutureBuilder(
         future: SettingsRepository().loadSettings(),
-        builder: (context, snapshot) =>
-            snapshot.hasData ? HomeScreen() : SettingsScreen(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final settings = snapshot.data;
+            if (settings == null || settings.isoValues.isEmpty || settings.minShutterSpeed == 0 || settings.maxShutterSpeed == 0) {
+              return SettingsScreen();
+            }
+            return HomeScreen();
+          } else {
+            return SettingsScreen();
+          }
+        },
       ),
     );
   }
