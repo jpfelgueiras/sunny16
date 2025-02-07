@@ -17,14 +17,21 @@ class _HomeScreenState extends State<HomeScreen> {
   String? _selectedCondition;
   double? _selectedAperture;
   List<Map<String, dynamic>> _recommendations = [];
+  final Map<String, IconData> _weatherIcons = {
+    'sunny': Icons.wb_sunny,
+    'light_clouds': Icons.wb_cloudy,
+    'cloudy': Icons.cloud,
+    'overcast': Icons.cloud_queue,
+    'sunset': Icons.brightness_3,
+  };
 
-    @override
+  @override
   void initState() {
     super.initState();
     _loadSettings();
   }
 
-    Future<void> _loadSettings() async {
+  Future<void> _loadSettings() async {
     final settings = await SettingsRepository().loadSettings();
     setState(() {
       _currentSettings = settings;
@@ -64,19 +71,10 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     }
   }
-final Map<String, IconData> _weatherIcons = {
-  'sunny': Icons.wb_sunny,
-  'light_clouds': Icons.wb_cloudy,
-  'cloudy': Icons.cloud,
-  'overcast': Icons.cloud_queue,
-  'sunset': Icons.brightness_3,
-};
-
 
   Widget _buildWeatherIcon(String condition, IconData icon) {
     return IconButton(
-      icon: Icon(icon, size: 40),
-      color: _selectedCondition == condition ? Colors.blue : Colors.grey,
+      icon: Icon(icon, size: 40, color: _selectedCondition == condition ? Colors.blue : Colors.grey),
       onPressed: () {
         setState(() {
           _selectedCondition = condition;
@@ -87,10 +85,10 @@ final Map<String, IconData> _weatherIcons = {
   }
 
   // Define aperture values
-final List<double> _apertureValues = [2, 2.8, 4, 5.6, 8, 11, 16, 22];
+  final List<double> _apertureValues = [2, 2.8, 4, 5.6, 8, 11, 16, 22];
   int _sliderValue = 1; // Slider index
 
-Widget _buildApertureSlider() {
+  Widget _buildApertureSlider() {
     return Column(
       children: [
         Text(
@@ -105,7 +103,7 @@ Widget _buildApertureSlider() {
           label: 'f/${_apertureValues[_sliderValue].toStringAsFixed(1)}',
           onChanged: (value) {
             setState(() {
-             _sliderValue = value.round();
+              _sliderValue = value.round();
               _selectedAperture = _apertureValues[_sliderValue];
               _calculate();
             });
@@ -114,24 +112,25 @@ Widget _buildApertureSlider() {
       ],
     );
   }
-  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Sunny 16 Calculator'),
+      appBar: AppBar(
+        title: Text('Sunny 16 Calculator'),
         actions: [
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: _openSettings, // Open settings screen
           ),
         ],
-      ),body: Padding(
+      ),
+      body: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
             // Condition Selector
-                        Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: _weatherIcons.entries.map((entry) {
                 return _buildWeatherIcon(entry.key, entry.value);
@@ -139,7 +138,7 @@ Widget _buildApertureSlider() {
             ),
 
             // Aperture Selector
-             _buildApertureSlider(),
+            _buildApertureSlider(),
             // Results
             Expanded(
               child: ListView.builder(
