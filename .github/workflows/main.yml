@@ -1,0 +1,57 @@
+name: Flutter Build
+
+on:
+  push:
+    branches:
+      - main # Trigger on commits to the main branch
+  pull_request:
+    branches:
+      - main # Trigger on pull requests to the main branch
+
+jobs:
+  build:
+    runs-on: 
+      - ubuntu-latest # Use the latest Ubuntu runner
+      #- macos-latest
+    
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.4' # Specify your Flutter version
+
+      # Install dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Run tests (optional)
+      - name: Run tests
+        run: flutter test
+
+      # Build the app
+      - name: Build APK
+        run: flutter build apk --release
+      
+
+      # Upload build artifacts (optional)
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          
+      
+      # Cache Flutter dependencies
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v3
+        with:
+          path: sunny16/.flutter # Cache Flutter SDK
+          key: flutter-dependencies-${{ runner.os }}-${{ hashFiles('sunny16/pubspec.lock') }}
+          restore-keys: |
+            flutter-dependencies-${{ runner.os }}-
