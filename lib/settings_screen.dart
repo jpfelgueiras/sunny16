@@ -4,6 +4,8 @@ import 'package:sunny16/settings_model.dart';
 import 'package:sunny16/settings_repository.dart';
 
 class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
+
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
