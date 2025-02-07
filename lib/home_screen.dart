@@ -64,6 +64,52 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     }
   }
+final Map<String, IconData> _weatherIcons = {
+  'sunny': Icons.wb_sunny,
+  'light_clouds': Icons.wb_cloudy,
+  'cloudy': Icons.cloud,
+  'overcast': Icons.cloud_queue,
+  'sunset': Icons.brightness_3,
+};
+
+
+  Widget _buildWeatherIcon(String condition, IconData icon) {
+    return IconButton(
+      icon: Icon(icon, size: 40),
+      color: _selectedCondition == condition ? Colors.blue : Colors.grey,
+      onPressed: () {
+        setState(() => _selectedCondition = condition);
+      },
+    );
+  }
+
+  // Define aperture values
+final List<double> _apertureValues = [2, 2.8, 4, 5.6, 8, 11, 16, 22];
+  int _sliderValue = 1; // Slider index
+
+Widget _buildApertureSlider() {
+    return Column(
+      children: [
+        Text(
+          'Aperture: f/${_apertureValues[_sliderValue].toStringAsFixed(1)}',
+          style: TextStyle(fontSize: 18),
+        ),
+        Slider(
+          value: _sliderValue.toDouble(),
+          min: 0,
+          max: _apertureValues.length - 1,
+          divisions: _apertureValues.length - 1,
+          label: 'f/${_apertureValues[_sliderValue].toStringAsFixed(1)}',
+          onChanged: (value) {
+            setState(() {
+              _sliderValue = value.round();
+              _selectedAperture = _apertureValues[_sliderValue];
+            });
+          },
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,35 +125,16 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
-            if (_currentSettings != null)
-              Text('Current ISO Values: ${_currentSettings!.isoValues.join(', ')}'),
             // Condition Selector
-            DropdownButton<String>(
-              hint: Text('Select Weather Condition'),
-              value: _selectedCondition,
-              items: const [
-                DropdownMenuItem(value: 'sunny', child: Text('Sunny')),
-                DropdownMenuItem(value: 'light_clouds', child: Text('Light Clouds')),
-                DropdownMenuItem(value: 'cloudy', child: Text('Cloudy')),
-                DropdownMenuItem(value: 'overcast', child: Text('Overcast')),
-                DropdownMenuItem(value: 'sunset', child: Text('Sunset')),
-              ],
-              onChanged: (v) => setState(() => _selectedCondition = v),
+                        Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: _weatherIcons.entries.map((entry) {
+                return _buildWeatherIcon(entry.key, entry.value);
+              }).toList(),
             ),
 
             // Aperture Selector
-            DropdownButton<double>(
-              hint: Text('Select Aperture'),
-              value: _selectedAperture,
-              items: [2, 2.8, 4, 5.6, 8, 11, 16, 22]
-                  .map((f) => DropdownMenuItem(
-                        value: f.toDouble(),
-                        child: Text('f/$f'),
-                      ))
-                  .toList(),
-              onChanged: (v) => setState(() => _selectedAperture = v),
-            ),
-
+             _buildApertureSlider(),
             ElevatedButton(
               onPressed: _calculate,
               child: Text('Calculate'),
