@@ -4,10 +4,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sunny16/main.dart';
 import 'package:sunny16/home_screen.dart';
+import 'package:sunny16/settings_model.dart';
 import 'package:sunny16/settings_repository.dart';
 import 'package:sunny16/settings_screen.dart';
 
-class MockSettingsRepository extends Mock implements SettingsRepository {}
+class MockSettingsRepository extends Mock implements SettingsRepository {
+  @override
+  Future<CameraSettings> loadSettings() {
+    return super.noSuchMethod(Invocation.method(#loadSettings, []), returnValue: Future.value(CameraSettings.defaultSettings()));
+  }
+}
 
 void main() {
   group('MyApp Tests', () {
@@ -22,9 +28,9 @@ void main() {
 
       expect(find.byType(MyApp), findsOneWidget);
     });
-/*
+
     testWidgets('FutureBuilder shows HomeScreen when loadSettings completes successfully', (WidgetTester tester) async {
-      when(mockSettingsRepository.loadSettings()).thenAnswer((_) async => true);
+      when(mockSettingsRepository.loadSettings()).thenAnswer((_) async => CameraSettings.defaultSettings());
 
       await tester.pumpWidget(MaterialApp(
         home: FutureBuilder(
@@ -39,7 +45,7 @@ void main() {
       expect(find.byType(HomeScreen), findsOneWidget);
       expect(find.byType(SettingsScreen), findsNothing);
     });
-
+/*
     testWidgets('FutureBuilder shows SettingsScreen when loadSettings does not complete successfully', (WidgetTester tester) async {
       when(mockSettingsRepository.loadSettings()).thenAnswer((_) async => false);
 
