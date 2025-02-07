@@ -7,11 +7,6 @@ class CameraSettings {
   final double maxShutterSpeed;
   final StopIncrement stopIncrement; // Add this field
 
-  CameraSettings.defaultSettings()
-    : isoValues = [100, 200, 400, 800, 1600],
-      minShutterSpeed = 1 / 4000,
-      maxShutterSpeed = 30,
-      stopIncrement = StopIncrement.third;
   CameraSettings({
     required this.isoValues,
     required this.minShutterSpeed,
