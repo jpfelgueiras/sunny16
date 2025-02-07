@@ -11,13 +11,13 @@ void main() {
       expect(Sunny16Calculator._getShutterSpeeds(StopIncrement.half), Sunny16Calculator._halfStopShutterSpeeds);
       expect(Sunny16Calculator._getShutterSpeeds(StopIncrement.third), Sunny16Calculator._thirdStopShutterSpeeds);
     });
-
+*/
     test('_roundToNearestShutterSpeed rounds to nearest standard shutter speed', () {
-      expect(Sunny16Calculator._roundToNearestShutterSpeed(1 / 1000, StopIncrement.full), 1 / 1000);
-      expect(Sunny16Calculator._roundToNearestShutterSpeed(1 / 750, StopIncrement.half), 1 / 750);
-      expect(Sunny16Calculator._roundToNearestShutterSpeed(1 / 640, StopIncrement.third), 1 / 640);
+      expect(Sunny16Calculator.roundToNearestShutterSpeed(1 / 1000, StopIncrement.full), 1 / 1000);
+      expect(Sunny16Calculator.roundToNearestShutterSpeed(1 / 750, StopIncrement.half), 1 / 750);
+      expect(Sunny16Calculator.roundToNearestShutterSpeed(1 / 640, StopIncrement.third), 1 / 640);
     });
-    */
+    
 
     test('calculateRecommendations calculates correct recommendations', () {
       final settings = CameraSettings(
@@ -32,8 +32,7 @@ void main() {
         aperture: 16,
         settings: settings,
       );
-      expect(recommendations.length, 0);
-/*
+
       expect(recommendations.length, 3);
       expect(recommendations[0]['iso'], 100);
       expect(recommendations[0]['shutter_speed'], '1/125s');
@@ -41,7 +40,7 @@ void main() {
       expect(recommendations[1]['shutter_speed'], '1/250s');
       expect(recommendations[2]['iso'], 400);
       expect(recommendations[2]['shutter_speed'], '1/500s');
-      */
+      
     });
 /*
     test('_formatShutterSpeed formats shutter speed correctly', () {

@@ -43,8 +43,10 @@ class Sunny16Calculator {
     }
   }
 
+static num roundToNearestShutterSpeed(double seconds, StopIncrement increment) {
+  return _roundToNearestShutterSpeed( seconds,  increment);
+}
   static num _roundToNearestShutterSpeed(double seconds, StopIncrement increment) {
-    seconds = 1/seconds;
     final shutterSpeeds = _getShutterSpeeds(increment);
     num closestSpeed = shutterSpeeds[0];
     double minDifference = (seconds - closestSpeed).abs();
@@ -79,8 +81,8 @@ class Sunny16Calculator {
     shutterSpeed = _roundToNearestShutterSpeed(shutterSpeed, settings.stopIncrement).toDouble();
 
       // Check against camera limits
-      if (shutterSpeed <= 1/settings.minShutterSpeed && 
-          shutterSpeed >= 1/settings.maxShutterSpeed) {
+      if (shutterSpeed >= settings.minShutterSpeed && 
+          shutterSpeed <= settings.maxShutterSpeed) {
         recommendations.add({
           'iso': iso,
           'shutter_speed': _formatShutterSpeed(shutterSpeed),
