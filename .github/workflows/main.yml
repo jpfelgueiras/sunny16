@@ -44,8 +44,8 @@ jobs:
         run: flutter test --coverage
 
       # Install lcov
-      - name: Install lcov
-        run: sudo apt-get install lcov
+      #- name: Install lcov
+      #  run: sudo apt-get install lcov
 
       # Generate coverage report
       #- name: Generate coverage report
@@ -67,7 +67,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: html-coverage-report
-          path: coverage/index.html
+          path: coverage/*
 
       # Upload coverage to Codecov
       - name: Upload coverage to Codecov
