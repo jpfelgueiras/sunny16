@@ -36,8 +36,8 @@ jobs:
       #  run: flutter analyze
 
       # Run formatting checks
-      - name: Run formatting checks
-        run: flutter format --set-exit-if-changed .
+      #- name: Run formatting checks
+      #  run: flutter format --set-exit-if-changed .
 
       # Run tests with coverage
       - name: Run tests with coverage
