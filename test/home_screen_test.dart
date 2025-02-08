@@ -13,7 +13,8 @@ void main() {
       expect(find.text('Sunny 16 Calculator'), findsOneWidget);
       expect(find.byType(Slider), findsOneWidget);
       expect(find.byType(IconButton), findsNWidgets(6)); // 5 weather icons
-      expect(find.byType(ListTile), findsNothing); // No recommendations initially
+      expect(
+          find.byType(ListTile), findsNothing); // No recommendations initially
     });
 
     testWidgets('Aperture slider changes value', (WidgetTester tester) async {
@@ -30,7 +31,8 @@ void main() {
       expect(find.text('Aperture: f/11.0'), findsOneWidget);
     });
 
-    testWidgets('Weather icon button changes condition', (WidgetTester tester) async {
+    testWidgets('Weather icon button changes condition',
+        (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(home: HomeScreen()));
 
       // Tap on a weather icon
@@ -42,7 +44,8 @@ void main() {
       expect(iconButton.color, Colors.blue);
     });
 
-    testWidgets('Settings button navigates to SettingsScreen', (WidgetTester tester) async {
+    testWidgets('Settings button navigates to SettingsScreen',
+        (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         home: HomeScreen(),
         routes: {

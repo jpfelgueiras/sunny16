@@ -9,10 +9,12 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // ignore: unused_field
   CameraSettings? _currentSettings;
   String? _selectedCondition;
   double? _selectedAperture;
@@ -40,11 +42,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _calculate() async {
     final settings = await SettingsRepository().loadSettings();
-    
+
     if (_selectedCondition == null || _selectedAperture == null) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please select all parameters'))
-      );
+          SnackBar(content: Text('Please select all parameters')));
       return;
     }
 
@@ -74,7 +76,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildWeatherIcon(String condition, IconData icon) {
     return IconButton(
-      icon: Icon(icon, size: 40, color: _selectedCondition == condition ? Colors.blue : Colors.grey),
+      icon: Icon(icon,
+          size: 40,
+          color: _selectedCondition == condition ? Colors.blue : Colors.grey),
       onPressed: () {
         setState(() {
           _selectedCondition = condition;

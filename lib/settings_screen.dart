@@ -74,10 +74,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // ISO Input Section
             Wrap(
               spacing: 8,
-              children: _isoValues.map((iso) => Chip(
-                label: Text('ISO $iso'),
-                onDeleted: () => setState(() => _isoValues.remove(iso)),
-              )).toList(),
+              children: _isoValues
+                  .map((iso) => Chip(
+                        label: Text('ISO $iso'),
+                        onDeleted: () => setState(() => _isoValues.remove(iso)),
+                      ))
+                  .toList(),
             ),
             TextFormField(
               keyboardType: TextInputType.number,
@@ -86,7 +88,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
               decoration: InputDecoration(labelText: 'Add ISO Value'),
             ),
-            
+
             // Shutter Speed Inputs
             TextFormField(
               controller: _minController,
@@ -100,10 +102,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               validator: (v) => v!.isEmpty ? 'Required' : null,
               decoration: InputDecoration(labelText: 'Max Shutter Speed (s)'),
             ),
-            
+
             // Stop Increment Selector
             _buildStopIncrementSelector(),
-            
+
             ElevatedButton(
               onPressed: _saveSettings,
               child: Text('Save Settings'),

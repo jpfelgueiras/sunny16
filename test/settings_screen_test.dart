@@ -16,7 +16,8 @@ void main() {
       mockSettingsRepository = MockSettingsRepository();
     });
 
-    testWidgets('SettingsScreen widget is created correctly', (WidgetTester tester) async {
+    testWidgets('SettingsScreen widget is created correctly',
+        (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(home: SettingsScreen()));
 
       expect(find.byType(SettingsScreen), findsOneWidget);
@@ -57,7 +58,8 @@ void main() {
       verify(mockSettingsRepository.saveSettings(any as CameraSettings)).called(1);
     });
 */
-    testWidgets('Stop increment selector works correctly', (WidgetTester tester) async {
+    testWidgets('Stop increment selector works correctly',
+        (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(home: SettingsScreen()));
 
       await tester.tap(find.byType(DropdownButton<StopIncrement>));
