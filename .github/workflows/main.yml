@@ -4,16 +4,17 @@ on:
   push:
     branches:
       - main # Trigger on commits to the main branch
+      - develop
   pull_request:
     branches:
       - main # Trigger on pull requests to the main branch
+      - develop
 
 jobs:
   build:
     runs-on: 
       - ubuntu-latest # Use the latest Ubuntu runner
       #- macos-latest
-    
 
     steps:
       # Checkout the repository
@@ -30,14 +31,50 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Run tests (optional)
-      - name: Run tests
-        run: flutter test
+      # Run static analysis
+      - name: Run static analysis
+        run: flutter analyze
+
+      # Run formatting checks
+      - name: Run formatting checks
+        run: dart format --set-exit-if-changed .
+
+      # Run tests with coverage
+      - name: Run tests with coverage
+        run: flutter test --coverage
+
+      # Install lcov
+      - name: Install lcov
+        run: sudo apt-get install lcov
+
+      # Generate HTML coverage report
+      - name: Generate HTML coverage report
+        run: genhtml -o coverage coverage/lcov.info
+
+      # Upload coverage report
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/lcov.info
+
+      # Upload HTML coverage report
+      - name: Upload HTML coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-coverage-report
+          path: coverage/*
+
+      # Upload coverage to Codecov
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: jpfelgueiras/sunny16
 
       # Build the app
       - name: Build APK
         run: flutter build apk --release
-      
 
       # Upload build artifacts (optional)
       - name: Upload APK
@@ -45,8 +82,7 @@ jobs:
         with:
           name: app-release.apk
           path: build/app/outputs/flutter-apk/app-release.apk
-          
-      
+
       # Cache Flutter dependencies
       - name: Cache Flutter dependencies
         uses: actions/cache@v3

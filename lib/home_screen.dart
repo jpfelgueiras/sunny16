@@ -9,10 +9,12 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // ignore: unused_field
   CameraSettings? _currentSettings;
   String? _selectedCondition;
   double? _selectedAperture;
@@ -42,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final settings = await SettingsRepository().loadSettings();
 
     if (_selectedCondition == null || _selectedAperture == null) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Please select all parameters')));
       return;
