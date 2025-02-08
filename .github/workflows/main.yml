@@ -44,8 +44,8 @@ jobs:
         run: flutter test --coverage
 
       # Install lcov
-      #- name: Install lcov
-      #  run: sudo apt-get install lcov
+      - name: Install lcov
+       run: sudo apt-get install lcov
 
       # Generate coverage report
       #- name: Generate coverage report
