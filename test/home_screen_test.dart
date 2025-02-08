@@ -60,8 +60,5 @@ void main() {
       // Verify navigation to SettingsScreen
       expect(find.byType(SettingsScreen), findsOneWidget);
     });
- 
   });
 }
-
-
