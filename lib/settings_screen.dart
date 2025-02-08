@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:sunny16/settings_model.dart';
 import 'package:sunny16/settings_repository.dart';
+import 'package:sunny16/fraction_input_formatter.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -28,8 +29,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final settings = await SettingsRepository().loadSettings();
     setState(() {
       _isoValues.addAll(settings.isoValues);
-      _minController.text = settings.minShutterSpeed.toString();
-      _maxController.text = settings.maxShutterSpeed.toString();
+      _minController.text = FractionInputFormatter.doubleToFraction(settings.minShutterSpeed);
+      _maxController.text = FractionInputFormatter.doubleToFraction(settings.maxShutterSpeed);
       _stopIncrement = settings.stopIncrement; // Load stop increment
     });
   }
@@ -38,8 +39,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (_formKey.currentState!.validate()) {
       final settings = CameraSettings(
         isoValues: _isoValues,
-        minShutterSpeed: double.parse(_minController.text),
-        maxShutterSpeed: double.parse(_maxController.text),
+        minShutterSpeed: FractionInputFormatter.parseFraction(_minController.text),
+        maxShutterSpeed: FractionInputFormatter.parseFraction(_maxController.text),
         stopIncrement: _stopIncrement, // Save stop increment
       );
 
@@ -94,15 +95,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // Shutter Speed Inputs
             TextFormField(
               controller: _minController,
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              keyboardType: TextInputType.text,
+              inputFormatters: [FractionInputFormatter()],
               validator: (v) => v!.isEmpty ? 'Required' : null,
-              decoration: InputDecoration(labelText: 'Min Shutter Speed (s)'),
+              decoration: InputDecoration(labelText: 'Fastest Shutter Speed'),
             ),
             TextFormField(
               controller: _maxController,
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              keyboardType: TextInputType.text,
+              inputFormatters: [FractionInputFormatter()],
               validator: (v) => v!.isEmpty ? 'Required' : null,
-              decoration: InputDecoration(labelText: 'Max Shutter Speed (s)'),
+              decoration: InputDecoration(labelText: 'Slowest Shutter Speed'),
             ),
 
             // Stop Increment Selector
