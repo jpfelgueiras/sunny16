@@ -1,5 +1,9 @@
 // home_screen.dart
 import 'package:flutter/material.dart';
+import 'package:sunny16/aperture_chip_selector.dart';
+import 'package:sunny16/aperture_dial.dart';
+import 'package:sunny16/aperture_glassmorphic_slider.dart';
+import 'package:sunny16/aperture_vertical_slider.dart';
 import 'package:sunny16/settings_model.dart';
 import 'package:sunny16/settings_repository.dart';
 import 'package:sunny16/settings_screen.dart';
@@ -89,7 +93,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // Define aperture values
-  final List<double> _apertureValues = [2, 2.8, 4, 5.6, 8, 11, 16, 22];
+  final List<double> _apertureValues = [
+    1.4,
+    2.0,
+    2.8,
+    4.0,
+    5.6,
+    8.0,
+    11.0,
+    16.0
+  ];
   int _sliderValue = 1; // Slider index
 
   Widget _buildApertureSlider() {
