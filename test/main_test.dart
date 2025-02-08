@@ -11,7 +11,10 @@ class MockSettingsRepository extends Mock implements SettingsRepository {
   @override
   Future<CameraSettings> loadSettings() {
     return super.noSuchMethod(Invocation.method(#loadSettings, []),
-        returnValue: Future.value(CameraSettings(isoValues: [100, 200, 400, 800], minShutterSpeed: 1 / 4000, maxShutterSpeed: 30)));
+        returnValue: Future.value(CameraSettings(
+            isoValues: [100, 200, 400, 800],
+            minShutterSpeed: 1 / 4000,
+            maxShutterSpeed: 30)));
   }
 }
 
@@ -33,8 +36,11 @@ void main() {
     testWidgets(
         'FutureBuilder shows HomeScreen when loadSettings completes successfully',
         (WidgetTester tester) async {
-      when(mockSettingsRepository.loadSettings())
-          .thenAnswer((_) async => CameraSettings(isoValues: [100, 200, 400, 800], minShutterSpeed: 1 / 4000, maxShutterSpeed: 30));
+      when(mockSettingsRepository.loadSettings()).thenAnswer((_) async =>
+          CameraSettings(
+              isoValues: [100, 200, 400, 800],
+              minShutterSpeed: 1 / 4000,
+              maxShutterSpeed: 30));
 
       await tester.pumpWidget(MaterialApp(
         home: FutureBuilder(
@@ -61,8 +67,9 @@ void main() {
     testWidgets(
         'FutureBuilder shows SettingsScreen when loadSettings does not complete successfully',
         (WidgetTester tester) async {
-      when(mockSettingsRepository.loadSettings())
-          .thenAnswer((_) async => CameraSettings(isoValues: [], minShutterSpeed: 0, maxShutterSpeed: 0));
+      when(mockSettingsRepository.loadSettings()).thenAnswer((_) async =>
+          CameraSettings(
+              isoValues: [], minShutterSpeed: 0, maxShutterSpeed: 0));
 
       await tester.pumpWidget(MaterialApp(
         home: FutureBuilder(

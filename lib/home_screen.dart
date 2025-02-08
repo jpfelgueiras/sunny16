@@ -40,11 +40,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _calculate() async {
     final settings = await SettingsRepository().loadSettings();
-    
+
     if (_selectedCondition == null || _selectedAperture == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please select all parameters'))
-      );
+          SnackBar(content: Text('Please select all parameters')));
       return;
     }
 
@@ -74,7 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildWeatherIcon(String condition, IconData icon) {
     return IconButton(
-      icon: Icon(icon, size: 40, color: _selectedCondition == condition ? Colors.blue : Colors.grey),
+      icon: Icon(icon,
+          size: 40,
+          color: _selectedCondition == condition ? Colors.blue : Colors.grey),
       onPressed: () {
         setState(() {
           _selectedCondition = condition;

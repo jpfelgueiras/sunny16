@@ -16,7 +16,10 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final settings = snapshot.data;
-            if (settings == null || settings.isoValues.isEmpty || settings.minShutterSpeed == 0 || settings.maxShutterSpeed == 0) {
+            if (settings == null ||
+                settings.isoValues.isEmpty ||
+                settings.minShutterSpeed == 0 ||
+                settings.maxShutterSpeed == 0) {
               return SettingsScreen();
             }
             return HomeScreen();
