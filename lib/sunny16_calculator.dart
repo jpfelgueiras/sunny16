@@ -80,27 +80,28 @@ static num roundToNearestShutterSpeed(double seconds, StopIncrement increment) {
     final recommendations = <Map<String, dynamic>>[];
 
     for (final iso in settings.isoValues) {
-      // Calculate base shutter speed
-      double? shutterSpeed = pow(aperture, 2) / (iso / 100 * pow(2, ev));
-      
-      // Convert to reciprocal (1/x format)
-      shutterSpeed = 1 / shutterSpeed;
-
-      // Round to the nearest standard shutter speed
+    // Calculate base shutter speed
+    double? shutterSpeed = pow(aperture, 2) / (iso / 100 * pow(2, ev));
+    
+    // Round to the nearest standard shutter speed
     shutterSpeed = _roundToNearestShutterSpeed(shutterSpeed, settings.stopIncrement).toDouble();
 
-      // Check against camera limits
-      if (shutterSpeed >= settings.minShutterSpeed && 
-          shutterSpeed <= settings.maxShutterSpeed) {
-        recommendations.add({
-          'iso': iso,
-          'shutter_speed': _formatShutterSpeed(shutterSpeed),
-        });
-      }
+    // Check against camera limits
+    if (shutterSpeed >= settings.minShutterSpeed && 
+        shutterSpeed <= settings.maxShutterSpeed) {
+      recommendations.add({
+        'iso': iso,
+        'shutter_speed': _formatShutterSpeed(shutterSpeed),
+      });
+    }
     }
 
     return recommendations;
   }
+
+   static String formatShutterSpeed(double seconds) {
+    return _formatShutterSpeed(seconds);
+   }
 
   static String _formatShutterSpeed(double seconds) {
     if (seconds >= 1) return '${seconds.toStringAsFixed(1)}s';

@@ -42,12 +42,12 @@ void main() {
       expect(recommendations[2]['shutter_speed'], '1/500s');
       
     });
-/*
+
     test('_formatShutterSpeed formats shutter speed correctly', () {
-      expect(Sunny16Calculator._formatShutterSpeed(1), '1.0s');
-      expect(Sunny16Calculator._formatShutterSpeed(0.5), '1/2s');
-      expect(Sunny16Calculator._formatShutterSpeed(0.25), '1/4s');
+      expect(Sunny16Calculator.formatShutterSpeed(1), '1.0s');
+      expect(Sunny16Calculator.formatShutterSpeed(0.5), '1/2s');
+      expect(Sunny16Calculator.formatShutterSpeed(0.25), '1/4s');
     });
-    */
+    
   });
 }
