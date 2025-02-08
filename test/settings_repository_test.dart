@@ -55,5 +55,11 @@ void main() {
           StopIncrement.third);
       expect(repository.parseStopIncrement(null), StopIncrement.third);
     });
+
+    test('parseStopIncrement returns default value when input is null', () {
+      expect(repository.parseStopIncrement(null), StopIncrement.third);
+    });
+
   });
+
 }
