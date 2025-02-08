@@ -48,8 +48,8 @@ jobs:
         run: sudo apt-get install lcov
 
       # Generate coverage report
-      - name: Generate coverage report
-        run: lcov --capture --directory coverage --output-file coverage/lcov.info
+      #- name: Generate coverage report
+      #  run: lcov --capture --directory coverage --output-file coverage/lcov.info
 
       # Generate HTML coverage report
       - name: Generate HTML coverage report
