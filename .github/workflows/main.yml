@@ -36,8 +36,8 @@ jobs:
 #                  run: flutter analyze
 
       # Run formatting checks
-#            - name: Run formatting checks
-#                  run: flutter format --set-exit-if-changed .
+      - name: Run formatting checks
+        run: dart format --set-exit-if-changed .
 
       # Run tests with coverage
       - name: Run tests with coverage
@@ -45,7 +45,7 @@ jobs:
 
       # Install lcov
       - name: Install lcov
-       run: sudo apt-get install lcov
+        run: sudo apt-get install lcov
 
       # Generate coverage report
       #- name: Generate coverage report
