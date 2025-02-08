@@ -7,6 +7,7 @@ class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _SettingsScreenState createState() => _SettingsScreenState();
 }
 
@@ -43,6 +44,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       );
 
       await SettingsRepository().saveSettings(settings);
+      // ignore: use_build_context_synchronously
       Navigator.pop(context, settings); // Return updated settings
     }
   }

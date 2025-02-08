@@ -10,6 +10,7 @@ class MockSettingsRepository extends Mock implements SettingsRepository {}
 
 void main() {
   group('SettingsScreen Tests', () {
+    // ignore: unused_local_variable
     late MockSettingsRepository mockSettingsRepository;
 
     setUp(() {
