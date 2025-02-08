@@ -12,6 +12,12 @@ class Sunny16Calculator {
     'sunset': 10,
   };
 
+  static const fullStopShutterSpeeds =_fullStopShutterSpeeds;
+
+  static const halfStopShutterSpeeds =_halfStopShutterSpeeds;
+
+  static const thirdStopShutterSpeeds = _thirdStopShutterSpeeds;
+  
   static const _fullStopShutterSpeeds = [
     1 / 8000, 1 / 4000, 1 / 2000, 1 / 1000, 1 / 500, 1 / 250, 1 / 125, 1 / 60,
     1 / 30, 1 / 15, 1 / 8, 1 / 4, 1 / 2, 1, 2, 4, 8, 15, 30
@@ -32,6 +38,9 @@ class Sunny16Calculator {
     8, 10, 13, 15, 20, 25, 30
   ];
 
+static List<num> getShutterSpeeds(StopIncrement increment) {
+  return _getShutterSpeeds(increment);
+}
   static List<num> _getShutterSpeeds(StopIncrement increment) {
     switch (increment) {
       case StopIncrement.full:
@@ -43,8 +52,10 @@ class Sunny16Calculator {
     }
   }
 
+static num roundToNearestShutterSpeed(double seconds, StopIncrement increment) {
+  return _roundToNearestShutterSpeed( seconds,  increment);
+}
   static num _roundToNearestShutterSpeed(double seconds, StopIncrement increment) {
-    seconds = 1/seconds;
     final shutterSpeeds = _getShutterSpeeds(increment);
     num closestSpeed = shutterSpeeds[0];
     double minDifference = (seconds - closestSpeed).abs();
@@ -69,27 +80,28 @@ class Sunny16Calculator {
     final recommendations = <Map<String, dynamic>>[];
 
     for (final iso in settings.isoValues) {
-      // Calculate base shutter speed
-      double? shutterSpeed = pow(aperture, 2) / (iso / 100 * pow(2, ev));
-      
-      // Convert to reciprocal (1/x format)
-      shutterSpeed = 1 / shutterSpeed;
-
-      // Round to the nearest standard shutter speed
+    // Calculate base shutter speed
+    double? shutterSpeed = pow(aperture, 2) / (iso / 100 * pow(2, ev));
+    
+    // Round to the nearest standard shutter speed
     shutterSpeed = _roundToNearestShutterSpeed(shutterSpeed, settings.stopIncrement).toDouble();
 
-      // Check against camera limits
-      if (shutterSpeed <= 1/settings.minShutterSpeed && 
-          shutterSpeed >= 1/settings.maxShutterSpeed) {
-        recommendations.add({
-          'iso': iso,
-          'shutter_speed': _formatShutterSpeed(shutterSpeed),
-        });
-      }
+    // Check against camera limits
+    if (shutterSpeed >= settings.minShutterSpeed && 
+        shutterSpeed <= settings.maxShutterSpeed) {
+      recommendations.add({
+        'iso': iso,
+        'shutter_speed': _formatShutterSpeed(shutterSpeed),
+      });
+    }
     }
 
     return recommendations;
   }
+
+   static String formatShutterSpeed(double seconds) {
+    return _formatShutterSpeed(seconds);
+   }
 
   static String _formatShutterSpeed(double seconds) {
     if (seconds >= 1) return '${seconds.toStringAsFixed(1)}s';
