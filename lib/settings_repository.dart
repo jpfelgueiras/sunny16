@@ -15,21 +15,26 @@ class SettingsRepository {
 
   Future<void> saveSettings(CameraSettings settings) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList(_keyISO, settings.isoValues.map((e) => e.toString()).toList());
+    await prefs.setStringList(
+        _keyISO, settings.isoValues.map((e) => e.toString()).toList());
     await prefs.setDouble(_keyMinShutter, settings.minShutterSpeed);
     await prefs.setDouble(_keyMaxShutter, settings.maxShutterSpeed);
-    await prefs.setString(_keyStopIncrement, settings.stopIncrement.toString()); // Save stop increment
+    await prefs.setString(_keyStopIncrement,
+        settings.stopIncrement.toString()); // Save stop increment
   }
 
   Future<CameraSettings> loadSettings() async {
     final prefs = await SharedPreferences.getInstance();
     return CameraSettings(
-      isoValues: prefs.getStringList(_keyISO)?.map(int.parse).toList() ?? [100, 200, 400, 800],
+      isoValues: prefs.getStringList(_keyISO)?.map(int.parse).toList() ??
+          [100, 200, 400, 800],
       minShutterSpeed: prefs.getDouble(_keyMinShutter) ?? 1 / 4000,
       maxShutterSpeed: prefs.getDouble(_keyMaxShutter) ?? 30,
-      stopIncrement: _parseStopIncrement(prefs.getString(_keyStopIncrement) ?? 'StopIncrement.third'), // Load stop increment
+      stopIncrement: _parseStopIncrement(prefs.getString(_keyStopIncrement) ??
+          'StopIncrement.third'), // Load stop increment
     );
   }
+
   StopIncrement parseStopIncrement(String? value) {
     return _parseStopIncrement(value);
   }

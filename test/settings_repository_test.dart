@@ -28,7 +28,8 @@ void main() {
       expect(prefs.getStringList(repository.keyISO), ['100', '200', '400']);
       expect(prefs.getDouble(repository.keyMinShutter), 1 / 4000);
       expect(prefs.getDouble(repository.keyMaxShutter), 30);
-      expect(prefs.getString(repository.keyStopIncrement), 'StopIncrement.half');
+      expect(
+          prefs.getString(repository.keyStopIncrement), 'StopIncrement.half');
     });
 
     test('loadSettings loads all fields correctly', () async {
@@ -46,9 +47,12 @@ void main() {
     });
 
     test('_parseStopIncrement parses stop increment correctly', () {
-      expect(repository.parseStopIncrement('StopIncrement.full'), StopIncrement.full);
-      expect(repository.parseStopIncrement('StopIncrement.half'), StopIncrement.half);
-      expect(repository.parseStopIncrement('StopIncrement.third'), StopIncrement.third);
+      expect(repository.parseStopIncrement('StopIncrement.full'),
+          StopIncrement.full);
+      expect(repository.parseStopIncrement('StopIncrement.half'),
+          StopIncrement.half);
+      expect(repository.parseStopIncrement('StopIncrement.third'),
+          StopIncrement.third);
       expect(repository.parseStopIncrement(null), StopIncrement.third);
     });
   });
