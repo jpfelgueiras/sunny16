@@ -32,12 +32,12 @@ jobs:
         run: flutter pub get
 
       # Run static analysis
-      # - name: Run static analysis
-      #  run: flutter analyze
+#       - name: Run static analysis
+#          run: flutter analyze
 
       # Run formatting checks
-      #- name: Run formatting checks
-      #  run: flutter format --set-exit-if-changed .
+#      - name: Run formatting checks
+#          run: flutter format --set-exit-if-changed .
 
       # Run tests with coverage
       - name: Run tests with coverage
@@ -49,7 +49,7 @@ jobs:
 
       # Generate coverage report
       - name: Generate coverage report
-        run: lcov --directory . --capture --output-file coverage/lcov.info
+        run: lcov --directory coverage --capture --output-file coverage/lcov.info
 
       # Generate HTML coverage report
       - name: Generate HTML coverage report
