@@ -29,8 +29,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final settings = await SettingsRepository().loadSettings();
     setState(() {
       _isoValues.addAll(settings.isoValues);
-      _minController.text = FractionInputFormatter.doubleToFraction(settings.minShutterSpeed);
-      _maxController.text = FractionInputFormatter.doubleToFraction(settings.maxShutterSpeed);
+      _minController.text =
+          FractionInputFormatter.doubleToFraction(settings.minShutterSpeed);
+      _maxController.text =
+          FractionInputFormatter.doubleToFraction(settings.maxShutterSpeed);
       _stopIncrement = settings.stopIncrement; // Load stop increment
     });
   }
@@ -39,8 +41,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (_formKey.currentState!.validate()) {
       final settings = CameraSettings(
         isoValues: _isoValues,
-        minShutterSpeed: FractionInputFormatter.parseFraction(_minController.text),
-        maxShutterSpeed: FractionInputFormatter.parseFraction(_maxController.text),
+        minShutterSpeed:
+            FractionInputFormatter.parseFraction(_minController.text),
+        maxShutterSpeed:
+            FractionInputFormatter.parseFraction(_maxController.text),
         stopIncrement: _stopIncrement, // Save stop increment
       );
 
