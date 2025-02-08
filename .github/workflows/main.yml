@@ -47,10 +47,6 @@ jobs:
       - name: Install lcov
         run: sudo apt-get install lcov
 
-      # Generate coverage report
-      #- name: Generate coverage report
-      #  run: lcov --capture --directory coverage --output-file coverage/lcov.info
-
       # Generate HTML coverage report
       - name: Generate HTML coverage report
         run: genhtml -o coverage coverage/lcov.info
