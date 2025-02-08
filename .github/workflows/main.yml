@@ -31,6 +31,14 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      # Run static analysis
+      - name: Run static analysis
+        run: flutter analyze
+
+      # Run formatting checks
+      - name: Run formatting checks
+        run: flutter format --set-exit-if-changed .
+
       # Run tests with coverage
       - name: Run tests with coverage
         run: flutter test --coverage
@@ -60,6 +68,12 @@ jobs:
         with:
           name: html-coverage-report
           path: coverage/index.html
+
+      # Upload coverage to Codecov
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       # Build the app
       - name: Build APK
