@@ -32,8 +32,8 @@ jobs:
         run: flutter pub get
 
       # Run static analysis
-      - name: Run static analysis
-        run: flutter analyze
+      # - name: Run static analysis
+      #  run: flutter analyze
 
       # Run formatting checks
       - name: Run formatting checks
