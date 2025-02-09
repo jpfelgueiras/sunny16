@@ -11,7 +11,7 @@ void main() {
 
       // Verify initial state
       expect(find.text('Sunny 16 Calculator'), findsOneWidget);
-      expect(find.byType(SizedBox), findsNWidgets(9));
+      expect(find.byType(SizedBox), findsNWidgets(10));
       expect(find.byType(IconButton), findsNWidgets(6)); // 5 weather icons
       expect(
           find.byType(ListTile), findsNothing); // No recommendations initially

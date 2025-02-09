@@ -35,7 +35,8 @@ class Sunny16Calculator {
 
     for (final speed in shutterSpeeds) {
       final difference = (seconds - speed).abs();
-      if (difference < minDifference) {
+      if (difference < minDifference ||
+          (difference == minDifference && speed < closestSpeed)) {
         minDifference = difference;
         closestSpeed = speed;
       }

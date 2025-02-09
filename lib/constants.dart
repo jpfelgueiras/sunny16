@@ -27,17 +27,119 @@ const Map<String, int> evValues = {
   'sunset': 10,
 };
 
-final List<double> fullStopShutterSpeeds =
-    calculateShutterSpeeds(1 / 8000, 18, 2);
-final List<double> halfStopShutterSpeeds =
-    calculateShutterSpeeds(1 / 8000, 34, 1.5);
-final List<double> thirdStopShutterSpeeds =
-    calculateShutterSpeeds(1 / 8000, 52, 1.333);
+const fullStopShutterSpeeds = [
+  1 / 8000,
+  1 / 4000,
+  1 / 2000,
+  1 / 1000,
+  1 / 500,
+  1 / 250,
+  1 / 125,
+  1 / 60,
+  1 / 30,
+  1 / 15,
+  1 / 8,
+  1 / 4,
+  1 / 2,
+  1,
+  2,
+  4,
+  8,
+  15,
+  30
+];
 
-List<double> calculateShutterSpeeds(double baseSpeed, int stops, double step) {
-  List<double> speeds = [];
-  for (int i = 0; i <= stops; i++) {
-    speeds.add(baseSpeed / (step * i));
-  }
-  return speeds;
-}
+const halfStopShutterSpeeds = [
+  1 / 8000,
+  1 / 4000,
+  1 / 3000,
+  1 / 2000,
+  1 / 1500,
+  1 / 1000,
+  1 / 750,
+  1 / 500,
+  1 / 360,
+  1 / 250,
+  1 / 180,
+  1 / 125,
+  1 / 90,
+  1 / 60,
+  1 / 45,
+  1 / 30,
+  1 / 24,
+  1 / 15,
+  1 / 12,
+  1 / 8,
+  1 / 6,
+  1 / 4,
+  1 / 3,
+  1 / 2,
+  0.7,
+  1,
+  1.5,
+  2,
+  3,
+  4,
+  6,
+  8,
+  15,
+  30
+];
+
+const thirdStopShutterSpeeds = [
+  1 / 8000,
+  1 / 6400,
+  1 / 5000,
+  1 / 4000,
+  1 / 3200,
+  1 / 2500,
+  1 / 2000,
+  1 / 1600,
+  1 / 1250,
+  1 / 1000,
+  1 / 800,
+  1 / 640,
+  1 / 500,
+  1 / 400,
+  1 / 320,
+  1 / 250,
+  1 / 200,
+  1 / 160,
+  1 / 125,
+  1 / 100,
+  1 / 80,
+  1 / 60,
+  1 / 50,
+  1 / 40,
+  1 / 30,
+  1 / 25,
+  1 / 20,
+  1 / 15,
+  1 / 13,
+  1 / 10,
+  1 / 8,
+  1 / 6,
+  1 / 5,
+  1 / 4,
+  1 / 3,
+  1 / 2.5,
+  1 / 2,
+  1 / 1.6,
+  1 / 1.3,
+  1,
+  1.3,
+  1.6,
+  2,
+  2.5,
+  3,
+  4,
+  5,
+  6,
+  8,
+  10,
+  13,
+  15,
+  20,
+  25,
+  30
+];
