@@ -4,17 +4,17 @@ import 'package:sunny16/settings_model.dart';
 import 'package:sunny16/settings_repository.dart';
 import 'package:sunny16/settings_screen.dart';
 import 'package:sunny16/sunny16_calculator.dart';
+import 'package:sunny16/condition_selector.dart';
+import 'package:sunny16/aperture_slider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // ignore: unused_field
   CameraSettings? _currentSettings;
   String? _selectedCondition;
   double? _selectedAperture;
@@ -44,7 +44,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final settings = await SettingsRepository().loadSettings();
 
     if (_selectedCondition == null || _selectedAperture == null) {
-      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Please select all parameters')));
       return;
@@ -60,13 +59,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _openSettings() async {
-    // Navigate to SettingsScreen and wait for a result
     final updatedSettings = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SettingsScreen()),
     );
 
-    // If settings were updated, refresh the home screen
     if (updatedSettings != null) {
       setState(() {
         _currentSettings = updatedSettings;
@@ -74,21 +71,21 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Widget _buildWeatherIcon(String condition, IconData icon) {
-    return IconButton(
-      icon: Icon(icon,
-          size: 40,
-          color: _selectedCondition == condition ? Colors.blue : Colors.grey),
-      onPressed: () {
-        setState(() {
-          _selectedCondition = condition;
-          _calculate();
-        });
-      },
-    );
+  void _onConditionSelected(String condition) {
+    setState(() {
+      _selectedCondition = condition;
+      _calculate();
+    });
   }
 
-  // Define aperture values
+  void _onApertureSelected(int index) {
+    setState(() {
+      _sliderValue = index;
+      _selectedAperture = _apertureValues[_sliderValue];
+      _calculate();
+    });
+  }
+
   final List<double> _apertureValues = [
     1.4,
     2.0,
@@ -100,64 +97,6 @@ class _HomeScreenState extends State<HomeScreen> {
     16.0
   ];
   int _sliderValue = 1; // Slider index
-
-  Widget _buildApertureSlider() {
-    return Container(
-      color: Colors.transparent,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              "Aperture",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 100,
-              child: Center(
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _apertureValues.length,
-                  itemBuilder: (context, index) {
-                    if ((index - _sliderValue).abs() > 1) {
-                      return Container(
-                          width: 80); // Empty space for non-adjacent values
-                    }
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _sliderValue = index;
-                          _selectedAperture = _apertureValues[_sliderValue];
-                          _calculate();
-                        });
-                      },
-                      child: Container(
-                        width: 80,
-                        alignment: Alignment.center,
-                        child: Text(
-                          "f/${_apertureValues[index]}",
-                          style: TextStyle(
-                            fontSize: _sliderValue == index ? 24 : 18,
-                            color: _sliderValue == index
-                                ? Colors.black
-                                : Colors.grey,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -176,14 +115,17 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             // Condition Selector
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: _weatherIcons.entries.map((entry) {
-                return _buildWeatherIcon(entry.key, entry.value);
-              }).toList(),
+            ConditionSelector(
+              weatherIcons: _weatherIcons,
+              selectedCondition: _selectedCondition,
+              onConditionSelected: _onConditionSelected,
             ),
             // Aperture Selector
-            _buildApertureSlider(),
+            ApertureSlider(
+              apertureValues: _apertureValues,
+              sliderValue: _sliderValue,
+              onApertureSelected: _onApertureSelected,
+            ),
             // Results
             Expanded(
               child: ListView.builder(
