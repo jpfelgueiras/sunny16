@@ -13,10 +13,10 @@ class ApertureSelector extends StatefulWidget {
   });
 
   @override
-  _ApertureSelectorState createState() => _ApertureSelectorState();
+  ApertureSelectorState createState() => ApertureSelectorState();
 }
 
-class _ApertureSelectorState extends State<ApertureSelector> {
+class ApertureSelectorState extends State<ApertureSelector> {
   late ScrollController _scrollController;
 
   @override
@@ -76,7 +76,7 @@ class _ApertureSelectorState extends State<ApertureSelector> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Horizontal Scrollable Aperture Selector
-            Container(
+            SizedBox(
               height: 100, // Height of the selector
               child: ListView.builder(
                 controller: _scrollController, // Attach the ScrollController
