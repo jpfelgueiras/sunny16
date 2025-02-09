@@ -10,8 +10,8 @@ void main() {
       await tester.pumpWidget(MaterialApp(home: HomeScreen()));
 
       // Verify initial state
-      expect(find.text('Sunny 16 Helpper'), findsOneWidget);
-      expect(find.byType(SizedBox), findsNWidgets(8));
+      expect(find.text('Sunny 16 Calculator'), findsOneWidget);
+      expect(find.byType(SizedBox), findsNWidgets(9));
       expect(find.byType(IconButton), findsNWidgets(6)); // 5 weather icons
       expect(
           find.byType(ListTile), findsNothing); // No recommendations initially

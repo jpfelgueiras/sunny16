@@ -6,7 +6,7 @@ import 'package:sunny16/settings_repository.dart';
 import 'package:sunny16/settings_screen.dart';
 import 'package:sunny16/sunny16_calculator.dart';
 import 'package:sunny16/condition_selector.dart';
-import 'package:sunny16/aperture_slider.dart';
+import 'package:sunny16/constants.dart'; // Import the constants
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,13 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
   String? _selectedCondition;
   double? _selectedAperture;
   List<Map<String, dynamic>> _recommendations = [];
-  final Map<String, IconData> _weatherIcons = {
-  'sunny': Icons.wb_sunny, // Good for sunny weather
-  'light_clouds': Icons.filter_drama, // Represents light clouds
-  'cloudy': Icons.cloud, // Good for cloudy weather
-  'overcast': Icons.cloud_queue, // Good for overcast weather
-  'sunset': Icons.brightness_3, // Good for sunset
-};
 
   @override
   void initState() {
@@ -85,33 +78,18 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onApertureSelected(int index) {
     setState(() {
       _sliderValue = index;
-      _selectedAperture = _apertureValues[_sliderValue];
+      _selectedAperture = apertureValues[_sliderValue];
       _calculate();
     });
   }
 
-  final List<double> _apertureValues = [
-    1.4,
-    2.0,
-    2.8,
-    4.0,
-    5.6,
-    8.0,
-    11.0,
-    16.0
-  ];
-  int _sliderValue = 1; // Slider index
+  int _sliderValue = 5; // Default to f/8
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sunny 16 Helpper',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),),
+        title: Text('Sunny 16 Calculator'),
         actions: [
           IconButton(
             icon: Icon(Icons.settings),
@@ -125,20 +103,16 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             // Condition Selector
             ConditionSelector(
-              weatherIcons: _weatherIcons,
+              weatherIcons: weatherIcons,
               selectedCondition: _selectedCondition,
               onConditionSelected: _onConditionSelected,
             ),
             // Aperture Selector
-            /*
-            ApertureSlider(
-              apertureValues: _apertureValues,
-              sliderValue: _sliderValue,
+            ApertureSelector(
+              apertureValues: apertureValues,
+              selectedIndex: _sliderValue,
               onApertureSelected: _onApertureSelected,
             ),
-            */
-            SizedBox(height: 20),
-            ApertureSelector(),
             // Results
             Expanded(
               child: ListView.builder(
