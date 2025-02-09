@@ -1,9 +1,5 @@
 // home_screen.dart
 import 'package:flutter/material.dart';
-import 'package:sunny16/aperture_chip_selector.dart';
-import 'package:sunny16/aperture_dial.dart';
-import 'package:sunny16/aperture_glassmorphic_slider.dart';
-import 'package:sunny16/aperture_vertical_slider.dart';
 import 'package:sunny16/settings_model.dart';
 import 'package:sunny16/settings_repository.dart';
 import 'package:sunny16/settings_screen.dart';
@@ -106,27 +102,60 @@ class _HomeScreenState extends State<HomeScreen> {
   int _sliderValue = 1; // Slider index
 
   Widget _buildApertureSlider() {
-    return Column(
-      children: [
-        Text(
-          'Aperture: f/${_apertureValues[_sliderValue].toStringAsFixed(1)}',
-          style: TextStyle(fontSize: 18),
+    return Container(
+      color: Colors.transparent,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "Aperture",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 100,
+              child: Center(
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _apertureValues.length,
+                  itemBuilder: (context, index) {
+                    if ((index - _sliderValue).abs() > 1) {
+                      return Container(
+                          width: 80); // Empty space for non-adjacent values
+                    }
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _sliderValue = index;
+                          _selectedAperture = _apertureValues[_sliderValue];
+                          _calculate();
+                        });
+                      },
+                      child: Container(
+                        width: 80,
+                        alignment: Alignment.center,
+                        child: Text(
+                          "f/${_apertureValues[index]}",
+                          style: TextStyle(
+                            fontSize: _sliderValue == index ? 24 : 18,
+                            color: _sliderValue == index
+                                ? Colors.black
+                                : Colors.grey,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
-        Slider(
-          value: _sliderValue.toDouble(),
-          min: 0,
-          max: _apertureValues.length - 1,
-          divisions: _apertureValues.length - 1,
-          label: 'f/${_apertureValues[_sliderValue].toStringAsFixed(1)}',
-          onChanged: (value) {
-            setState(() {
-              _sliderValue = value.round();
-              _selectedAperture = _apertureValues[_sliderValue];
-              _calculate();
-            });
-          },
-        ),
-      ],
+      ),
     );
   }
 
@@ -153,7 +182,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 return _buildWeatherIcon(entry.key, entry.value);
               }).toList(),
             ),
-
             // Aperture Selector
             _buildApertureSlider(),
             // Results
