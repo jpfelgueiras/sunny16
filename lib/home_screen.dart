@@ -1,5 +1,6 @@
 // home_screen.dart
 import 'package:flutter/material.dart';
+import 'package:sunny16/aperture_selector.dart';
 import 'package:sunny16/settings_model.dart';
 import 'package:sunny16/settings_repository.dart';
 import 'package:sunny16/settings_screen.dart';
@@ -22,12 +23,12 @@ class _HomeScreenState extends State<HomeScreen> {
   double? _selectedAperture;
   List<Map<String, dynamic>> _recommendations = [];
   final Map<String, IconData> _weatherIcons = {
-    'sunny': Icons.wb_sunny,
-    'light_clouds': Icons.wb_cloudy,
-    'cloudy': Icons.cloud,
-    'overcast': Icons.cloud_queue,
-    'sunset': Icons.brightness_3,
-  };
+  'sunny': Icons.wb_sunny, // Good for sunny weather
+  'light_clouds': Icons.filter_drama, // Represents light clouds
+  'cloudy': Icons.cloud, // Good for cloudy weather
+  'overcast': Icons.cloud_queue, // Good for overcast weather
+  'sunset': Icons.brightness_3, // Good for sunset
+};
 
   @override
   void initState() {
@@ -105,7 +106,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sunny 16 Calculator'),
+        title: Text('Sunny 16 Helpper',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),),
         actions: [
           IconButton(
             icon: Icon(Icons.settings),
@@ -124,11 +130,15 @@ class _HomeScreenState extends State<HomeScreen> {
               onConditionSelected: _onConditionSelected,
             ),
             // Aperture Selector
+            /*
             ApertureSlider(
               apertureValues: _apertureValues,
               sliderValue: _sliderValue,
               onApertureSelected: _onApertureSelected,
             ),
+            */
+            SizedBox(height: 20),
+            ApertureSelector(),
             // Results
             Expanded(
               child: ListView.builder(

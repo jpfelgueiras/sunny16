@@ -14,18 +14,41 @@ class ConditionSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: weatherIcons.entries.map((entry) {
-        return IconButton(
-          icon: Icon(
-            entry.value,
-            size: 40,
-            color: selectedCondition == entry.key ? Colors.blue : Colors.grey,
+    return Column(
+      children: [
+        const Text(
+          "Condition",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
           ),
-          onPressed: () => onConditionSelected(entry.key),
-        );
-      }).toList(),
+        ),
+        SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: weatherIcons.entries.map((entry) {
+            return Column(
+              children: [
+                IconButton(
+                  icon: Icon(
+                    entry.value,
+                    size: 40,
+                    color: selectedCondition == entry.key ? Colors.blue : Colors.grey,
+                  ),
+                  onPressed: () => onConditionSelected(entry.key),
+                ),
+                Text(
+                    entry.key.replaceAll('_', ' ').split(' ').map((word) => word[0].toUpperCase() + word.substring(1)).join(' '),
+                  style: TextStyle(
+                    color: selectedCondition == entry.key ? Colors.blue : Colors.grey,
+                  ),
+                ),
+              ],
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 }
