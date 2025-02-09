@@ -11,7 +11,7 @@ void main() {
 
       // Verify initial state
       expect(find.text('Sunny 16 Calculator'), findsOneWidget);
-      expect(find.byType(Slider), findsOneWidget);
+      expect(find.byType(SizedBox), findsNWidgets(7));
       expect(find.byType(IconButton), findsNWidgets(6)); // 5 weather icons
       expect(
           find.byType(ListTile), findsNothing); // No recommendations initially
@@ -21,14 +21,14 @@ void main() {
       await tester.pumpWidget(MaterialApp(home: HomeScreen()));
 
       // Verify initial slider value
-      expect(find.text('Aperture: f/2.8'), findsOneWidget);
+      expect(find.text('f/2.0'), findsOneWidget);
 
-      // Move the slider
-      await tester.drag(find.byType(Slider), Offset(200, 0));
+      // Move the custom aperture slider
+      await tester.tap(find.text('f/2.8'));
       await tester.pump();
 
       // Verify updated slider value
-      expect(find.text('Aperture: f/11.0'), findsOneWidget);
+      expect(find.text('f/4.0'), findsOneWidget);
     });
 
     testWidgets('Weather icon button changes condition',
