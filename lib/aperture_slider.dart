@@ -5,7 +5,8 @@ class ApertureSlider extends StatelessWidget {
   final int sliderValue;
   final Function(int) onApertureSelected;
 
-  ApertureSlider({
+  const ApertureSlider({
+    super.key,
     required this.apertureValues,
     required this.sliderValue,
     required this.onApertureSelected,

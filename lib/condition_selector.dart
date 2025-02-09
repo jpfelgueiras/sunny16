@@ -5,7 +5,8 @@ class ConditionSelector extends StatelessWidget {
   final String? selectedCondition;
   final Function(String) onConditionSelected;
 
-  ConditionSelector({
+  const ConditionSelector({
+    super.key,
     required this.weatherIcons,
     required this.selectedCondition,
     required this.onConditionSelected,
