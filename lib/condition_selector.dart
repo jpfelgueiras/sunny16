@@ -34,14 +34,22 @@ class ConditionSelector extends StatelessWidget {
                   icon: Icon(
                     entry.value,
                     size: 40,
-                    color: selectedCondition == entry.key ? Colors.blue : Colors.grey,
+                    color: selectedCondition == entry.key
+                        ? Colors.blue
+                        : Colors.grey,
                   ),
                   onPressed: () => onConditionSelected(entry.key),
                 ),
                 Text(
-                    entry.key.replaceAll('_', ' ').split(' ').map((word) => word[0].toUpperCase() + word.substring(1)).join(' '),
+                  entry.key
+                      .replaceAll('_', ' ')
+                      .split(' ')
+                      .map((word) => word[0].toUpperCase() + word.substring(1))
+                      .join(' '),
                   style: TextStyle(
-                    color: selectedCondition == entry.key ? Colors.blue : Colors.grey,
+                    color: selectedCondition == entry.key
+                        ? Colors.blue
+                        : Colors.grey,
                   ),
                 ),
               ],

@@ -27,10 +27,12 @@ const Map<String, int> evValues = {
   'sunset': 10,
 };
 
-
-final List<double> fullStopShutterSpeeds = calculateShutterSpeeds(1 / 8000, 18, 2);
-final List<double> halfStopShutterSpeeds = calculateShutterSpeeds(1 / 8000, 34, 1.5);
-final List<double> thirdStopShutterSpeeds = calculateShutterSpeeds(1 / 8000, 52, 1.333);
+final List<double> fullStopShutterSpeeds =
+    calculateShutterSpeeds(1 / 8000, 18, 2);
+final List<double> halfStopShutterSpeeds =
+    calculateShutterSpeeds(1 / 8000, 34, 1.5);
+final List<double> thirdStopShutterSpeeds =
+    calculateShutterSpeeds(1 / 8000, 52, 1.333);
 
 List<double> calculateShutterSpeeds(double baseSpeed, int stops, double step) {
   List<double> speeds = [];
