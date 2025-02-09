@@ -1,5 +1,6 @@
 // filepath: /home/jpfelgueiras/sunny16/test/sunny16_calculator_test.dart
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sunny16/constants.dart';
 import 'package:sunny16/settings_model.dart';
 import 'package:sunny16/sunny16_calculator.dart';
 
@@ -7,11 +8,11 @@ void main() {
   group('Sunny16Calculator Tests', () {
     test('_getShutterSpeeds returns correct list based on stop increment', () {
       expect(Sunny16Calculator.getShutterSpeeds(StopIncrement.full),
-          Sunny16Calculator.fullStopShutterSpeeds);
+          fullStopShutterSpeeds);
       expect(Sunny16Calculator.getShutterSpeeds(StopIncrement.half),
-          Sunny16Calculator.halfStopShutterSpeeds);
+          halfStopShutterSpeeds);
       expect(Sunny16Calculator.getShutterSpeeds(StopIncrement.third),
-          Sunny16Calculator.thirdStopShutterSpeeds);
+          thirdStopShutterSpeeds);
     });
 
     test('_roundToNearestShutterSpeed rounds to nearest standard shutter speed',
