@@ -1,9 +1,12 @@
 // home_screen.dart
 import 'package:flutter/material.dart';
+import 'package:sunny16/aperture_selector.dart';
 import 'package:sunny16/settings_model.dart';
 import 'package:sunny16/settings_repository.dart';
 import 'package:sunny16/settings_screen.dart';
 import 'package:sunny16/sunny16_calculator.dart';
+import 'package:sunny16/condition_selector.dart';
+import 'package:sunny16/constants.dart'; // Import the constants
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,13 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
   String? _selectedCondition;
   double? _selectedAperture;
   List<Map<String, dynamic>> _recommendations = [];
-  final Map<String, IconData> _weatherIcons = {
-    'sunny': Icons.wb_sunny,
-    'light_clouds': Icons.wb_cloudy,
-    'cloudy': Icons.cloud,
-    'overcast': Icons.cloud_queue,
-    'sunset': Icons.brightness_3,
-  };
 
   @override
   void initState() {
@@ -60,13 +56,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _openSettings() async {
-    // Navigate to SettingsScreen and wait for a result
     final updatedSettings = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SettingsScreen()),
     );
 
-    // If settings were updated, refresh the home screen
     if (updatedSettings != null) {
       setState(() {
         _currentSettings = updatedSettings;
@@ -74,48 +68,22 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Widget _buildWeatherIcon(String condition, IconData icon) {
-    return IconButton(
-      icon: Icon(icon,
-          size: 40,
-          color: _selectedCondition == condition ? Colors.blue : Colors.grey),
-      onPressed: () {
-        setState(() {
-          _selectedCondition = condition;
-          _calculate();
-        });
-      },
-    );
+  void _onConditionSelected(String condition) {
+    setState(() {
+      _selectedCondition = condition;
+      _calculate();
+    });
   }
 
-  // Define aperture values
-  final List<double> _apertureValues = [2, 2.8, 4, 5.6, 8, 11, 16, 22];
-  int _sliderValue = 1; // Slider index
-
-  Widget _buildApertureSlider() {
-    return Column(
-      children: [
-        Text(
-          'Aperture: f/${_apertureValues[_sliderValue].toStringAsFixed(1)}',
-          style: TextStyle(fontSize: 18),
-        ),
-        Slider(
-          value: _sliderValue.toDouble(),
-          min: 0,
-          max: _apertureValues.length - 1,
-          divisions: _apertureValues.length - 1,
-          label: 'f/${_apertureValues[_sliderValue].toStringAsFixed(1)}',
-          onChanged: (value) {
-            setState(() {
-              _sliderValue = value.round();
-              _selectedAperture = _apertureValues[_sliderValue];
-              _calculate();
-            });
-          },
-        ),
-      ],
-    );
+  void _onApertureSelected(int index) {
+    setState(() {
+      _sliderValue = index;
+      _selectedAperture = apertureValues[_sliderValue];
+      _calculate();
+    });
   }
+
+  int _sliderValue = 5; // Default to f/8
 
   @override
   Widget build(BuildContext context) {
@@ -134,15 +102,17 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             // Condition Selector
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: _weatherIcons.entries.map((entry) {
-                return _buildWeatherIcon(entry.key, entry.value);
-              }).toList(),
+            ConditionSelector(
+              weatherIcons: weatherIcons,
+              selectedCondition: _selectedCondition,
+              onConditionSelected: _onConditionSelected,
             ),
-
             // Aperture Selector
-            _buildApertureSlider(),
+            ApertureSelector(
+              apertureValues: apertureValues,
+              selectedIndex: _sliderValue,
+              onApertureSelected: _onApertureSelected,
+            ),
             // Results
             Expanded(
               child: ListView.builder(
