@@ -41,6 +41,10 @@ To run the tests, use the following command:
 flutter test
 ```
 
+#### Test Coverage
+
+You can view the test coverage report for this project at [Codecov](https://app.codecov.io/github/jpfelgueiras/sunny16).
+
 ## Project Structure
 ```
 sunny16/
@@ -63,6 +67,8 @@ sunny16/
 ├── README.md
 └── pubspec.yaml
 ```
+
+
 
 ## Resources
 
