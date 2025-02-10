@@ -103,11 +103,11 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             // Condition Selector
             ConditionSelector(
-              weatherIcons: weatherIcons,
+              weatherData: weatherData,
               selectedCondition: _selectedCondition,
               onConditionSelected: _onConditionSelected,
             ),
-            // Aperture Selector
+            // Aperture Carousel
             ApertureSelector(
               apertureValues: apertureValues,
               selectedIndex: _sliderValue,

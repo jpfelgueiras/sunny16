@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ConditionSelector extends StatelessWidget {
-  final Map<String, IconData> weatherIcons;
+  final Map<String, Map<String, dynamic>> weatherData;
   final String? selectedCondition;
   final Function(String) onConditionSelected;
 
   const ConditionSelector({
     super.key,
-    required this.weatherIcons,
+    required this.weatherData,
     required this.selectedCondition,
     required this.onConditionSelected,
   });
@@ -27,29 +27,21 @@ class ConditionSelector extends StatelessWidget {
         SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: weatherIcons.entries.map((entry) {
+          children: weatherData.entries.map((entry) {
             return Column(
               children: [
                 IconButton(
                   icon: Icon(
-                    entry.value,
+                    entry.value['icon'],
                     size: 40,
-                    color: selectedCondition == entry.key
-                        ? Colors.blue
-                        : Colors.grey,
+                    color: selectedCondition == entry.key ? Colors.blue : Colors.grey,
                   ),
                   onPressed: () => onConditionSelected(entry.key),
                 ),
                 Text(
-                  entry.key
-                      .replaceAll('_', ' ')
-                      .split(' ')
-                      .map((word) => word[0].toUpperCase() + word.substring(1))
-                      .join(' '),
+                  entry.key.replaceAll('_', ' '),
                   style: TextStyle(
-                    color: selectedCondition == entry.key
-                        ? Colors.blue
-                        : Colors.grey,
+                    color: selectedCondition == entry.key ? Colors.blue : Colors.grey,
                   ),
                 ),
               ],

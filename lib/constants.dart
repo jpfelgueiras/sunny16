@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
-
-const Map<String, IconData> weatherIcons = {
-  'sunny': Icons.wb_sunny,
-  'light_clouds': Icons.wb_cloudy,
-  'cloudy': Icons.cloud,
-  'overcast': Icons.cloud_queue,
-  'sunset': Icons.brightness_3,
+const Map<String, Map<String, dynamic>> weatherData = {
+  'sunny': {
+    'icon': Icons.wb_sunny,
+    'ev': 15,
+  },
+  'light_clouds': {
+    'icon': Icons.wb_cloudy,
+    'ev': 14,
+  },
+  'cloudy': {
+    'icon': Icons.cloud,
+    'ev': 13,
+  },
+  'overcast': {
+    'icon': Icons.cloud_queue,
+    'ev': 12,
+  },
+  'sunset': {
+    'icon': Icons.brightness_3,
+    'ev': 10,
+  },
 };
+
+
 
 const List<double> apertureValues = [
   1.4,
@@ -18,14 +34,6 @@ const List<double> apertureValues = [
   11.0,
   16.0,
 ];
-
-const Map<String, int> evValues = {
-  'sunny': 15,
-  'light_clouds': 14,
-  'cloudy': 13,
-  'overcast': 12,
-  'sunset': 10,
-};
 
 const fullStopShutterSpeeds = [
   1 / 8000,
@@ -51,6 +59,7 @@ const fullStopShutterSpeeds = [
 
 const halfStopShutterSpeeds = [
   1 / 8000,
+  1 / 6000,
   1 / 4000,
   1 / 3000,
   1 / 2000,

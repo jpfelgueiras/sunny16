@@ -5,7 +5,7 @@ import 'package:sunny16/settings_model.dart';
 import 'package:sunny16/constants.dart'; // Import the constants
 
 class Sunny16Calculator {
-  static const _evValues = evValues;
+  static const _weatherData = weatherData;
 
   static List<num> getShutterSpeeds(StopIncrement increment) {
     return _getShutterSpeeds(increment);
@@ -35,8 +35,7 @@ class Sunny16Calculator {
 
     for (final speed in shutterSpeeds) {
       final difference = (seconds - speed).abs();
-      if (difference < minDifference ||
-          (difference == minDifference && speed < closestSpeed)) {
+      if (difference < minDifference) {
         minDifference = difference;
         closestSpeed = speed;
       }
@@ -50,7 +49,7 @@ class Sunny16Calculator {
     required double aperture,
     required CameraSettings settings,
   }) {
-    final ev = _evValues[condition] ?? 15;
+    final ev = _weatherData[condition]?['ev'] ?? 15;
     final recommendations = <Map<String, dynamic>>[];
 
     for (final iso in settings.isoValues) {
